@@ -6,3 +6,4 @@ test/contracts/*.json
 yarn.lock
 .coverage
 examples/config.json
+examples-enterprise/config.json

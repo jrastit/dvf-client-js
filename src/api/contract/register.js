@@ -1,5 +1,7 @@
 const DVFError = require('../../lib/dvf/DVFError')
 const BN = require('bignumber.js')
+const wawet = require('../../lib/dvf/post-wawet')
+
 
 module.exports = async (dvf, starkKey, deFiSignature) => {
   const ethAddress = dvf.get('account')
@@ -16,13 +18,23 @@ module.exports = async (dvf, starkKey, deFiSignature) => {
   }
 
   let onchainResult = ''
-  try {
-    onchainResult = await starkInstance.methods
-      .register(`0x${starkKey}`, deFiSignature)
-      .send(sendArguments)
-  } catch (e) {
-    console.log('lib/stark/register error is: ', e)
-    throw new DVFError('ERR_STARK_REGISTRATION')
+  console.log("onChainRegister")
+  console.log(`0x${starkKey}`)
+  console.log(deFiSignature)
+  console.log(sendArguments)
+  console.log("\n")
+  if (dvf.config.wawet_key){
+    onchainResult = await wawet(dvf, "/stark_register.php", {starkKey: `0x${starkKey}`, deFiSignature: deFiSignature, api_key: ethAddress});
+    console.log(onchainResult);
+  }else{
+    try {
+      onchainResult = await starkInstance.methods
+        .register(`0x${starkKey}`, deFiSignature)
+        .send(sendArguments)
+    } catch (e) {
+      console.log('lib/stark/register error is: ', e)
+      throw new DVFError('ERR_STARK_REGISTRATION')
+    }
   }
 
   if (onchainResult || onchainResult.status === true) {

@@ -8,9 +8,12 @@ const getConfigVar = (varName, config) => {
     return value
   }
   else {
-    throw new Error(
-      `${varName} is required. Set it in ./config.json or via an env var.`
-    )
+		if (varName == "WALLET_KEY" || varName == "WALLET_ID"){
+		}else{
+    	throw new Error(
+      	`${varName} is required. Set it in ./config.json or via an env var.`
+    	)
+		}
   }
 
 }
@@ -33,8 +36,11 @@ module.exports = () => {
       throw error
     }
   }
+
   return {
     INFURA_PROJECT_ID: getConfigVar('INFURA_PROJECT_ID', config),
-    ETH_PRIVATE_KEY: getConfigVar('ETH_PRIVATE_KEY', config)
+    ETH_PRIVATE_KEY: getConfigVar('ETH_PRIVATE_KEY', config),
+    WALLET_KEY: getConfigVar('WALLET_KEY', config),
+    WALLET_ID: getConfigVar('WALLET_ID', config)
   }
 }

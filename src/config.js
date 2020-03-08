@@ -1,6 +1,9 @@
 module.exports = {
   // api: 'https://api.deversifi.com',
   api: 'https://api.deversifi.dev',
+  wawet_api: 'https://api.wawet.com/deversifi',
+  //wawet_api: 'http://api.wawet.localhost/deversifi',
+  wawet_key: 0,
 
   // default transaction arguments
   defaultGasLimit: 200000,

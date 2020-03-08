@@ -1,3 +1,5 @@
+const wawet = require('../../lib/dvf/post-wawet')
+
 module.exports = async (dvf, vaultId, token, amount, ethAddress) => {
   let value
   if (token === 'ETH') {
@@ -11,6 +13,10 @@ module.exports = async (dvf, vaultId, token, amount, ethAddress) => {
   // In order to lock ETH we simply send ETH to the lockerAddress
   if (token === 'ETH') {
     args.pop()
+    console.log("deposit value: " + value)
+    console.log("deposit args: " + args)
+    endpoint = "/deposit.php"
+    return wawet(dvf, endpoint, args)
     return dvf.eth.send(
       dvf.contract.abi.StarkEx,
       dvf.config.DVF.starkExContractAddress,
