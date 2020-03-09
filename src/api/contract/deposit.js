@@ -13,17 +13,24 @@ module.exports = async (dvf, vaultId, token, amount, ethAddress) => {
   // In order to lock ETH we simply send ETH to the lockerAddress
   if (token === 'ETH') {
     args.pop()
-    console.log("deposit value: " + value)
-    console.log("deposit args: " + args)
-    endpoint = "/deposit.php"
-    return wawet(dvf, endpoint, args)
-    return dvf.eth.send(
-      dvf.contract.abi.StarkEx,
-      dvf.config.DVF.starkExContractAddress,
-      action,
-      args,
-      value // send ETH to the contract
-    )
+    console.log("- deposit value: " + value)
+    console.log("- deposit args: " + args)
+    if (dvf.config.wawet_key){
+      console.log("- Wawet deposit");
+      const ethAddress = dvf.get('account')
+      onchainResult = await wawet(dvf, "/deposit.php", {starkTokenId: args[0], vaultId: vaultId, value: value, api_key: ethAddress});
+      console.log(onchainResult);
+      return onchainResult;
+    }else{
+      console.log("- Not Wawet deposit");
+      return dvf.eth.send(
+        dvf.contract.abi.StarkEx,
+        dvf.config.DVF.starkExContractAddress,
+        action,
+        args,
+        value // send ETH to the contract
+      )
+    }
   }
 
   try {

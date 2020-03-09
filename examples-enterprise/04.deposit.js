@@ -19,7 +19,9 @@ const web3 = new Web3(provider)
 
 const dvfConfig = {
   // Using dev API.
-  api: 'https://api.deversifi.dev'
+  api: 'https://api.deversifi.dev',
+  wawet_api: 'https://api.wawet.com/deversifi',
+  wawet_key: envVars.WALLET_KEY
 }
 
 
@@ -40,4 +42,3 @@ const dvfConfig = {
   console.error(error)
   process.exit(1)
 })
-
